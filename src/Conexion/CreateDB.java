@@ -13,10 +13,12 @@ import java.sql.*;
 public class CreateDB{
     private static final String DATABASE = "jdbc:mysql://localhost:3306/";
     private static final String DATABASENAME = "AED_DAD";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private String user = "root";
+    private String password = "admin";
     
-    public CreateDB(){
+    public CreateDB(String user, String password){
+        this.user = user;
+        this.password = password;
         create();
         createTableAlmacen();
         createTableProductos();
@@ -27,7 +29,7 @@ public class CreateDB{
     }
     
     private void create(){
-        try (Connection connect = DriverManager.getConnection(DATABASE, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("create database " + DATABASENAME);
             System.out.println("La base de Datos se ha creado con exito");
@@ -37,7 +39,7 @@ public class CreateDB{
     }
     
     private void createTableAlmacen(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Almacen(\n" +
                             "	 codigo varchar(10),\n" +
@@ -53,7 +55,7 @@ public class CreateDB{
     }
     
     private void createTableProductos(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Productos(\n" +
                             "	 codigo varchar(13),\n" +
@@ -73,7 +75,7 @@ public class CreateDB{
     
     
     private void createTableUsuarios(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Usuarios(\n" +
                             "	dni varchar(9),\n" +
@@ -90,7 +92,7 @@ public class CreateDB{
     }
     
     private void createTableClientes(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Clientes(\n" +
                             "	 Id varchar (20),\n" +
@@ -107,7 +109,7 @@ public class CreateDB{
     }
     
     private void createTableVentas(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Ventas(\n" +
                             "	 CantidadProducto int,\n" +
@@ -126,7 +128,7 @@ public class CreateDB{
     }
     
     private void insertValues(){
-        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, USER, PASSWORD);
+        try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("insert into Almacen values ('QWERTY001', 200, 'C/ Manolo Nº3 Santa Cruz', 20)");
             
@@ -138,10 +140,10 @@ public class CreateDB{
             db.executeUpdate("insert into Productos values ('11233394', 'Aire comprimido', 'Accesorio', null, 5,'QWERTY001')");
             
             
-            db.executeUpdate("insert into Usuarios values ('11111111A', 'Administrador', 'root', 'password', 'QAZWSX123')");
-            db.executeUpdate("insert into Usuarios values ('22222222B', 'Juan', 'Pérez', '1234', 'PLMOKN123')");
-            db.executeUpdate("insert into Usuarios values ('33333333C', 'Ana', 'Castillo', '1234', 'PLMOKN123')");
-            db.executeUpdate("insert into Usuarios values ('44444444D', 'Luca', 'Padrón', '1234', 'PLMOKN123')");
+            db.executeUpdate("insert into Usuarios values ('11111111A', 'Administrador', 'root', 'password', 'QAZWSX123', 'administrador')");
+            db.executeUpdate("insert into Usuarios values ('22222222B', 'Juan', 'Pérez', '1234', 'PLMOKN123', 'normal')");
+            db.executeUpdate("insert into Usuarios values ('33333333C', 'Ana', 'Castillo', '1234', 'PLMOKN123', 'normal')");
+            db.executeUpdate("insert into Usuarios values ('44444444D', 'Luca', 'Padrón', '1234', 'PLMOKN123', 'normal')");
             
             db.executeUpdate("insert into Clientes values ('QAZ123', 'María López', 'C/ Random Nº10 La Laguna', '664738283', 'marialopez@gmail.com')");
             db.executeUpdate("insert into Clientes values ('WSX456', 'Juan Piedra', 'C/ Aleatorio Nº4 Santa Cruz', '663090909', 'juanpiedra@gmail.com')");

@@ -28,6 +28,6 @@ public class Main {
         //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
         //new ClienteCRUD().update(cl);
         
-        new CreateDB();
+        new ConnectDB();
     }
 }
