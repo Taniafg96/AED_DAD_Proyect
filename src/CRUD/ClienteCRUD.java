@@ -5,7 +5,7 @@
  */
 package CRUD;
 
-import Conexion.Conexion;
+import Conexion.ConnectDB;
 import Tablas.Clientes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,12 +21,11 @@ import java.util.logging.Logger;
  * @author Cristo
  */
 public class ClienteCRUD {
-    
+    private Connection con = new ConnectDB().getConetion();
+    private PreparedStatement ps;
     
     //Metodo Create
     public void create(Clientes cliente){
-        Connection con = Conexion.establecerConexion();
-        PreparedStatement ps;
         String insertar = "INSERT INTO clientes (Id, Nombre, Direccion, Telefono, Correo) VALUES (?,?,?,?,?)";
         
         try {
@@ -50,8 +49,6 @@ public class ClienteCRUD {
      * Ese ArrayList será pasado a una variable tipo String
      */
     public void select(ArrayList <String> campos){
-        Connection con = Conexion.establecerConexion();
-        PreparedStatement ps;
         ResultSet rs;
         String select = "select ? from clientes";
         String camposSelect = "";
@@ -77,12 +74,10 @@ public class ClienteCRUD {
     }
     
     public void update(Clientes cliente){
-        Connection con;
         Statement st;
         String update = "update clientes set nombre='"+cliente.getNombre()+"', Direccion='"+cliente.getDireccion()+"' where id='"+cliente.getId()+"'";
         try {
-            con = Conexion.establecerConexion();
-            st=con.createStatement();
+            st = con.createStatement();
             st.execute(update);
         } catch (SQLException ex) {
             Logger.getLogger(ClienteCRUD.class.getName()).log(Level.SEVERE, null, ex);

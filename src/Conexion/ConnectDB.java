@@ -23,6 +23,10 @@ public class ConnectDB{
         connectDB();
     }
     
+    public Connection getConetion(){
+        return connect;
+    }
+    
     private void connectDB(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
