@@ -10,12 +10,13 @@ import java.sql.*;
  *
  * @author Usuario
  */
+
 public class CreateDB{
     private static final String DATABASE = "jdbc:mysql://localhost:3306/";
     private static final String DATABASENAME = "AED_DAD";
     private String user = "root";
     private String password = "admin";
-    
+            
     public CreateDB(String user, String password){
         this.user = user;
         this.password = password;
@@ -129,7 +130,7 @@ public class CreateDB{
     
     private void insertValues(){
         try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
-                Statement db = connect.createStatement();){
+            Statement db = connect.createStatement();){
             db.executeUpdate("insert into Almacen values ('QWERTY001', 200, 'C/ Manolo Nº3 Santa Cruz', 20)");
             
             db.executeUpdate("insert into Productos values ('12345678', 'Ratón', 'Electrónico', null, 5,'QWERTY001')");

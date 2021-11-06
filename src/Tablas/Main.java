@@ -29,5 +29,6 @@ public class Main {
         //new ClienteCRUD().update(cl);
         
         new ConnectDB();
+        new ClienteCRUD();
     }
 }
