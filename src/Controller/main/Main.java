@@ -6,7 +6,7 @@
 package controller.main;
 
 import java.util.Arrays;
-import model.crud.SPProducts;
+import model.storedProcedure.SPProducts;
 import view.ViewProducts;
 
 /**

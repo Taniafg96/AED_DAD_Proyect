@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.crud;
+package model.storedProcedure;
 
 import java.sql.Connection;
 import model.Connection.ConnectDB;
@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.crud.ProductsCRUD;
 
 /**
  *
