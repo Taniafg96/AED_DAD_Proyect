@@ -5,6 +5,11 @@
  */
 package view;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.crud.ProductsCRUD;
+import model.storedProcedure.SPProducts;
+
 /**
  *
  * @author Usuario
@@ -28,23 +33,51 @@ public class NewJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jColorChooser1 = new javax.swing.JColorChooser();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        productos = new javax.swing.JTable();
 
-        setBackground(new java.awt.Color(255, 0, 51));
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        productos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(productos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    public void mostrarProductos(){
+        DefaultTableModel model = new DefaultTableModel();
+        List<ProductsCRUD> products = new SPProducts().consultProducts();
+        try{
+            for(ProductsCRUD i : products){
+                
+            }
+        }catch(Exception ex){
+            
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable productos;
     // End of variables declaration//GEN-END:variables
 }
