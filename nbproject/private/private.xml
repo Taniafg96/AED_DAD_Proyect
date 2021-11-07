@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/vista/ViewProducts.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/modelo/ProductsCRUD.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/modelo/SPProducts.java</file>
             <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/Tablas/Main.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/Conexion/CreateDB.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/Conexion/ConnectDB.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/vista/ViewProductsPanel.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/AED_DAD_Proyecto/src/vista/NewJPanel.java</file>
         </group>
     </open-files>
 </project-private>
