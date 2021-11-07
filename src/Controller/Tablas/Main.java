@@ -5,9 +5,10 @@
  */
 package Tablas;
 
-import CRUD.ClienteCRUD;
 import Conexion.*;
-import java.util.ArrayList;
+import java.util.Arrays;
+import modelo.SPProducts;
+import view.ViewProducts;
 
 /**
  *
@@ -28,7 +29,6 @@ public class Main {
         //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
         //new ClienteCRUD().update(cl);
         
-        new ConnectDB();
-        new ClienteCRUD();
+        new  ViewProducts();
     }
 }
