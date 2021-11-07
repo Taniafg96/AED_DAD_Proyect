@@ -12,7 +12,6 @@ import javax.swing.JPanel;
  * @author Usuario
  */
 public class ViewProducts extends javax.swing.JFrame {
-    private JPanel panel = new ViewProductsPanel();
     NewJPanel panel1 = new NewJPanel();
     /**
      * Creates new form ViewProducts
