@@ -1,4 +1,4 @@
-package Conexion;
+package model.Connection;
 
 import java.sql.*;
 

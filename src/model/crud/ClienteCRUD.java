@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package model.crud;
 
-import Conexion.ConnectDB;
-import Tablas.Clientes;
+import model.Connection.ConnectDB;
+import controller.main.Clientes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

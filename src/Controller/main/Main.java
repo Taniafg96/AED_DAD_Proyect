@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Tablas;
+package controller.main;
 
-import Conexion.*;
 import java.util.Arrays;
-import modelo.SPProducts;
+import model.crud.SPProducts;
 import view.ViewProducts;
 
 /**
