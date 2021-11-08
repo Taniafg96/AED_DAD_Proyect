@@ -5,9 +5,9 @@
  */
 package controller.main;
 
-import java.util.Arrays;
-import model.crud.SPProducts;
-import view.ViewProducts;
+import model.Connection.ConnectDB;
+import model.storedProcedure.SPProducts;
+
 
 /**
  *
@@ -15,19 +15,7 @@ import view.ViewProducts;
  */
 public class Main {
     public static void main(String[] args) {
-        //Clientes cl = new Clientes("qazsdq", "Lucas", "Lucas", "45", "asf@");
-        //System.out.println(cl.toString());
-        
-        
-//        ArrayList <String> campos = new ArrayList <String>();
-//        campos.add("Nombre");
-//        campos.add("edad");
-//        campos.add("Apellidos");
-//        new ClienteCRUD().select(campos);
-
-        //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
-        //new ClienteCRUD().update(cl);
-        
-        new  ViewProducts();
+        new ConnectDB();
+        new SPProducts().insertProducts("DKJHDGKJ", "Alfombrilla", "Electronico", null, 12);
     }
 }

@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.crud;
+package model.storedProcedure;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import model.Connection.ConnectDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +16,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.crud.ProductsCRUD;
 
 /**
  *
@@ -51,4 +55,25 @@ public class SPProducts {
         
         return productos;
     }
+    
+    public void insertProducts(String codigo, String nombre, 
+            String tipo, String descripcion, float precio){
+        String codigoAlmacen = "PLMOKN123";
+        String insert = "insert into Productos values (?, ?, ?, ?, ?, ?)";
+        try(PreparedStatement db = CONNECT.prepareStatement(insert);){
+            db.setString(1, codigo);
+            db.setString(2, nombre);
+            db.setString(3, tipo);
+            db.setString(4, descripcion);
+            db.setFloat(5, precio);
+            db.setString(6, codigoAlmacen);
+            System.out.println("Se han insertado los valores con exito");
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    
 }
