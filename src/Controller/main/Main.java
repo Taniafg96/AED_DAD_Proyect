@@ -6,8 +6,8 @@
 package controller.main;
 
 import java.util.Arrays;
+import model.Connection.ConnectDB;
 import model.storedProcedure.SPProducts;
-import view.ViewProducts;
 
 /**
  *
@@ -28,6 +28,6 @@ public class Main {
         //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
         //new ClienteCRUD().update(cl);
         
-        new  ViewProducts();
+        new  ConnectDB("root", "EstoesunaPRUEBA!!DAM");
     }
 }
