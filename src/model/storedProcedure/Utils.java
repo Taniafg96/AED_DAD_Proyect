@@ -52,8 +52,9 @@ public class Utils {
     }
     
     public void validateEmail(String email){
-        String pattern = "^[a-zA-Z]@^[a-zA-Z].com";
+        String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         if(!email.matches(pattern)) JOptionPane.showMessageDialog(null, "ERROR:"
                 + "\n El correo no es correcto", "Correo Incorrecto", JOptionPane.WARNING_MESSAGE);
     }
+
 }

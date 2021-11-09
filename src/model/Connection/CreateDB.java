@@ -120,6 +120,7 @@ public class CreateDB{
                             "    DNI_Empleado varchar (9),\n" +
                             "    codigo_producto varchar (10),\n" +
                             "    id_cliente varchar (20),\n" +
+                            "    primary key (Id_Venta), \n" +
                             "    foreign key (DNI_Empleado) references Usuarios(dni),\n" +
                             "    foreign key (codigo_producto) references Productos (codigo),\n" +
                             "    foreign key (id_cliente) references Clientes (Id)\n" +

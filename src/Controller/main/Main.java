@@ -17,6 +17,7 @@ import model.storedProcedure.Consults;
 import java.util.Arrays;
 import model.Connection.ConnectDB;
 import model.storedProcedure.Consults;
+import model.storedProcedure.Utils;
 
 /**
  *
