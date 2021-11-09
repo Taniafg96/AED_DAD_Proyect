@@ -5,7 +5,13 @@
  */
 package controller.main;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import model.Connection.ConnectDB;
+import model.crud.ProductsCRUD;
 import model.storedProcedure.SPProducts;
 
 
@@ -15,7 +21,23 @@ import model.storedProcedure.SPProducts;
  */
 public class Main {
     public static void main(String[] args) {
-        new ConnectDB();
+        ConnectDB connect = new ConnectDB();
+        Connection CONNECT = connect.getConetion();
+        
+        try(Statement stm = CONNECT.createStatement();){
+            ResultSet rs = stm.executeQuery("SELECT * "
+                                            + "FROM Productos");
+            
+            while(rs.next()){
+                System.out.println(rs.getString("codigo"));      
+            }
+            
+            rs.close();
+            stm.close();  
+        } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERROR: \nDe lectura"
+                        + "\n", "Producto", JOptionPane.WARNING_MESSAGE);
+        }
         new SPProducts().insertProducts("DKJHDGKJ", "Alfombrilla", "Electronico", null, 12);
     }
 }
