@@ -29,7 +29,7 @@ public class ConnectDB{
     
     private void connectDB(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try {
                 connect = DriverManager.getConnection(dataBase, user, password);
             } catch (SQLException ex) {

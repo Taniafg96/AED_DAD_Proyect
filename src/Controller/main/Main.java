@@ -12,8 +12,11 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import model.Connection.ConnectDB;
 import model.crud.ProductsCRUD;
-import model.storedProcedure.SPProducts;
+import model.storedProcedure.Consults;
 
+import java.util.Arrays;
+import model.Connection.ConnectDB;
+import model.storedProcedure.Consults;
 
 /**
  *
@@ -23,6 +26,9 @@ public class Main {
     public static void main(String[] args) {
         ConnectDB connect = new ConnectDB();
         Connection CONNECT = connect.getConetion();
+        
+        ProductsCRUD product = new ProductsCRUD("44556klkkjl4", "Alfombri", "Electyutyronico", "khjkklj", 12);
+        product.insertProduct();
         
         try(Statement stm = CONNECT.createStatement();){
             ResultSet rs = stm.executeQuery("SELECT * "
@@ -36,8 +42,18 @@ public class Main {
             stm.close();  
         } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "ERROR: \nDe lectura"
-                        + "\n", "Producto", JOptionPane.WARNING_MESSAGE);
+                        + "\n", "Producto", JOptionPane.WARNING_MESSAGE); 
         }
-        new SPProducts().insertProducts("DKJHDGKJ", "Alfombrilla", "Electronico", null, 12);
+        
+
+//        product.insertProduct();
+//        product.updateProduct();
+//        product.deleteProduct();
+        
+        
+        
+//        for(int i = 1; i <= product.data().size(); i++){
+//            System.out.println(i + "    " + product.data().get(i-1));
+//        }
     }
 }

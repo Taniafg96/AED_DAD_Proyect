@@ -1,41 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.crud;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Connection.ConnectDB;
-import model.storedProcedure.SPProducts;
+import model.storedProcedure.Consults;
 
 /**
  *
  * @author Usuario
  */
 public class ProductsCRUD {
-    private String codigo;
-    private String nombre;
-    private String tipo;
-    private String descripcion;
-    private float precio;
-    private String codigoAlmacen;
-    private static final Connection CONNECT = new ConnectDB().getConetion();
+    private final String codigo;
+    private final String nombre;
+    private final String tipo;
+    private final String descripcion;
+    private final float precio;
+    private static final String CODIGOALMACEN = "QWERTY001";
+    private final Consults consult = new Consults(); 
     
-    public ProductsCRUD(String codigo, String nombre, String tipo, String descripcion, float precio, String codigoAlmacen) {
+    public ProductsCRUD(String codigo, String nombre, String tipo, String descripcion, float precio) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.codigoAlmacen = codigoAlmacen;
     } 
 
     public String getCodigo() {
@@ -59,7 +44,33 @@ public class ProductsCRUD {
     }
 
     public String getCodigoAlmacen() {
-        return codigoAlmacen;
+        return CODIGOALMACEN;
+    }
+    
+    public void deleteProduct(){
+        String delete = "DELETE FROM Productos WHERE codigo = '" + codigo + "'";
+        consult.delete(codigo, delete, "producto");
+    }
+    
+    public void updateProduct(){
+        String fields= "";
+        
+        if(!nombre.isEmpty()) fields += "nombre = '" + nombre + "', ";
+        if(!tipo.isEmpty()) fields += "tipo = '" + tipo + "', ";
+        if(!descripcion.isEmpty()) fields += "descripcion = '" + descripcion + "', ";
+        if(precio != 0 ) fields += "precio = '" + precio + "', ";
+
+        if(!fields.isEmpty()) fields = fields.substring(0, fields.split("").length-2);
+
+        String update = "UPDATE Productos SET " + fields
+                        + " WHERE codigo = '" + codigo + "'"; 
+        
+        consult.modify(codigo, update, "Productos");
+    }
+    
+    public void insertProduct(){
+        consult.insertProduct(codigo, nombre, tipo, descripcion, precio, 
+            CODIGOALMACEN, "Productos");
     }
     
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.storedProcedure;
 
 import java.sql.Connection;
@@ -18,34 +14,41 @@ import model.Connection.ConnectDB;
 public class Utils {
     private Connection CONNECT = new ConnectDB().getConetion();
     private Boolean validateCod = false;
-
+    private Boolean exitsProduct = false;
+    
     public Boolean getValidateCod() {
         return validateCod;
     }
+
+    public Boolean getExitsProduct() {
+        return exitsProduct;
+    }
     
     public void validateCodProducts(String codigo){       
-        if(codigo.length() > 13) 
+        if(codigo.length() > 13){
             JOptionPane.showMessageDialog(null, "ERROR:\n El codigo del producto"
                     + " es demasiado largo", "Logitud", JOptionPane.WARNING_MESSAGE);
         
+            exits(codigo, "Productos");
+            if(exitsProduct == true) validateCod = true;
+        }
+    }
+    
+    public void exits(String codigo, String tableName){
         try(Statement stm = CONNECT.createStatement();){
-            ResultSet rs = stm.executeQuery("SELECT * "
-                            + "FROM Productos "
-                            + "WHERE codigo = " + "'" + codigo + "'");
+            String consult = "SELECT * FROM " + tableName +" WHERE codigo ='" + codigo + "'";
             
+            ResultSet rs = stm.executeQuery(consult);
             int rowCount = 0;
             while(rs.next()){ rowCount++;} 
                 
-            if(rowCount == 0) validateCod = true;       
-            else JOptionPane.showMessageDialog(null, "ERROR:\n El Producto ya "
-                    + "existe", "Primary Key", JOptionPane.WARNING_MESSAGE);
+            if(rowCount == 0) exitsProduct = true;       
             
-            rs.close();
             stm.close();
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "ERROR: Consulta codigo Producto en DB", "Error Consulta", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR: Consulta codigo Producto "
+                    + "en DB", "Error Consulta", JOptionPane.WARNING_MESSAGE);
         }
-        
     }
     
     public void validateEmail(String email){
