@@ -10,7 +10,7 @@ public class ConnectDB{
     private static Connection CONNECT;
     private static String DATABASE = "jdbc:mysql://localhost:3306/AED_DAD";
     private static String USER = "root";
-    private static String PASSWORD = "admin";
+    private static String PASSWORD = "EstoesunaPRUEBA!!DAM";
     
     public ConnectDB(){
         connectDB();
@@ -26,7 +26,7 @@ public class ConnectDB{
         return CONNECT;
     }
     
-    public static Connection connectDB(){
+    public Connection connectDB(){
         try {
             CONNECT = DriverManager.getConnection(DATABASE, USER, PASSWORD);
             return CONNECT;
