@@ -12,42 +12,40 @@ import model.Connection.ConnectDB;
  * @author tania
  */
 public class Utils {
-    private Connection CONNECT = new ConnectDB().getConetion();
+    private final Connection CONNECT = new ConnectDB().getConetion();
     private Boolean validateCod = false;
-    private Boolean exitsProduct = false;
+    private Boolean exitsElement = false;
     
     public Boolean getValidateCod() {
         return validateCod;
     }
 
-    public Boolean getExitsProduct() {
-        return exitsProduct;
-    }
+    public Boolean getExitsElement() {
+        return exitsElement;
+    }   
     
-    public void validateCodProducts(String codigo){       
-        if(codigo.length() > 13){
-            JOptionPane.showMessageDialog(null, "ERROR:\n El codigo del producto"
-                    + " es demasiado largo", "Logitud", JOptionPane.WARNING_MESSAGE);
-        
-            exits(codigo, "Productos");
-            if(exitsProduct == true) validateCod = true;
+    public void validateCod(String codigo, String tableName){   
+        exits(codigo, tableName);
+        if(exitsElement){
+            if(codigo.length() > 13){
+                JOptionPane.showMessageDialog(null, "ERROR:\n El codigo del producto"
+                        + " es demasiado largo", "Logitud", JOptionPane.WARNING_MESSAGE);
+                validateCod = true;
+            }
         }
     }
     
     public void exits(String codigo, String tableName){
+        String consult = null;
         try(Statement stm = CONNECT.createStatement();){
-            String consult = "SELECT * FROM " + tableName +" WHERE codigo ='" + codigo + "'";
+            if(tableName.equals("Ventas")) consult = "SELECT * FROM " + tableName +" WHERE Id_Venta ='" + codigo + "'";
+            if(tableName.equals("Productos")) consult = "SELECT * FROM " + tableName +" WHERE codigo ='" + codigo + "'";
             
             ResultSet rs = stm.executeQuery(consult);
-            int rowCount = 0;
-            while(rs.next()){ rowCount++;} 
-                
-            if(rowCount == 0) exitsProduct = true;       
-            
-            stm.close();
+            exitsElement = rs.next();
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "ERROR: Consulta codigo Producto "
-                    + "en DB", "Error Consulta", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ERROR:\n" + codigo
+                    + " no existe en la Base de Datos", "Error Consulta", JOptionPane.WARNING_MESSAGE);
         }
     }
     
@@ -57,4 +55,21 @@ public class Utils {
                 + "\n El correo no es correcto", "Correo Incorrecto", JOptionPane.WARNING_MESSAGE);
     }
 
+    public String generateIDSales(){
+        int id = 0;
+        try(Statement stm = CONNECT.createStatement();){
+            String consult = "SELECT Id_Venta FROM Ventas";
+            ResultSet rs  = stm.executeQuery(consult);
+            
+            if(!rs.next()) id = 1;
+            while(rs.next()){
+                if(rs.isLast()) id = Integer.parseInt(rs.getString("Id_Venta")) + 1;
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return String.valueOf(id);
+    }
+    
 }

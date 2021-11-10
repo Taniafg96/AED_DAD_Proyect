@@ -1,5 +1,6 @@
 package model.crud;
 
+import javax.swing.JOptionPane;
 import model.storedProcedure.Consults;
 
 /**
@@ -7,12 +8,13 @@ import model.storedProcedure.Consults;
  * @author Usuario
  */
 public class ProductsCRUD {
-    private final String codigo;
-    private final String nombre;
-    private final String tipo;
-    private final String descripcion;
-    private final float precio;
-    private static final String CODIGOALMACEN = "QWERTY001";
+    private String codigo;
+    private String nombre;
+    private String tipo;
+    private String descripcion;
+    private float precio;
+    private String CODIGOALMACEN;
+    
     private final Consults consult = new Consults(); 
     
     public ProductsCRUD(String codigo, String nombre, String tipo, String descripcion, float precio) {
@@ -21,7 +23,37 @@ public class ProductsCRUD {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.CODIGOALMACEN = "QWERTY001"; 
     } 
+
+    public ProductsCRUD(String codigo, String nombre, String tipo, String descripcion, float precio, String codAlmacen) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.CODIGOALMACEN = codAlmacen;
+    } 
+    
+    public ProductsCRUD(String codigo){
+        consult.searchProducto(codigo);
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
 
     public String getCodigo() {
         return codigo;
@@ -47,28 +79,30 @@ public class ProductsCRUD {
         return CODIGOALMACEN;
     }
     
-    public void deleteProduct(){
+    public void delete(){
         String delete = "DELETE FROM Productos WHERE codigo = '" + codigo + "'";
         consult.delete(codigo, delete, "producto");
     }
     
-    public void updateProduct(){
-        String fields= "";
+    public void modify(){    
+        String fields = "";
         
         if(!nombre.isEmpty()) fields += "nombre = '" + nombre + "', ";
         if(!tipo.isEmpty()) fields += "tipo = '" + tipo + "', ";
         if(!descripcion.isEmpty()) fields += "descripcion = '" + descripcion + "', ";
         if(precio != 0 ) fields += "precio = '" + precio + "', ";
 
-        if(!fields.isEmpty()) fields = fields.substring(0, fields.split("").length-2);
+        if(!fields.isEmpty()){
+            fields = fields.substring(0, fields.split("").length-2);
+            String update = "UPDATE Productos SET " + fields
+                            + " WHERE codigo = '" + codigo + "'"; 
 
-        String update = "UPDATE Productos SET " + fields
-                        + " WHERE codigo = '" + codigo + "'"; 
-        
-        consult.modify(codigo, update, "Productos");
+            consult.modify(codigo, update, "Productos");
+        }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
+                "Modificacion", JOptionPane.WARNING_MESSAGE);
     }
     
-    public void insertProduct(){
+    public void insert(){
         consult.insertProduct(codigo, nombre, tipo, descripcion, precio, 
             CODIGOALMACEN, "Productos");
     }

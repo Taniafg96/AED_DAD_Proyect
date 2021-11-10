@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.main;
 
 import java.sql.Connection;
@@ -16,6 +11,7 @@ import model.storedProcedure.Consults;
 
 import java.util.Arrays;
 import model.Connection.ConnectDB;
+import model.crud.VentasCRUD;
 import model.storedProcedure.Consults;
 import model.storedProcedure.Utils;
 
@@ -27,16 +23,28 @@ public class Main {
     public static void main(String[] args) {
         ConnectDB connect = new ConnectDB();
         Connection CONNECT = connect.getConetion();
-        
-        ProductsCRUD product = new ProductsCRUD("44556klkkjl4", "Alfombri", "Electyutyronico", "khjkklj", 12);
-        product.insertProduct();
-        
+
+          //ProductsCRUD pro = new ProductsCRUD("HFSDKJK", "FGFHFG", "FGFHGF", "FGFGH", 20);
+          ProductsCRUD pro = new ProductsCRUD("12345678");
+          //pro.modify();
+          pro.delete();
+          //pro.insert();
+//        pro.setNombre("sdgdfgf");
+//        pro.updateProduct();
+//        pro.deleteProduct();
+//        
+        //VentasCRUD ventas = new VentasCRUD(100, 200, "fhfhgfh", "ghgfhfg", "ghfghgh"); 
+        ///VentasCRUD ventas = new VentasCRUD("7");
+        //ventas.setProductLot(10);
+        //ventas.insert();
+        //ventas.modify();
         try(Statement stm = CONNECT.createStatement();){
             ResultSet rs = stm.executeQuery("SELECT * "
-                                            + "FROM Productos");
+                                            + "FROM Ventas");
             
             while(rs.next()){
-                System.out.println(rs.getString("codigo"));      
+                System.out.println(rs.getString("Id_Venta"));
+                System.out.println(rs.getInt("CantidadProducto")); 
             }
             
             rs.close();
