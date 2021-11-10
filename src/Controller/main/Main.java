@@ -23,12 +23,16 @@ public class Main {
     public static void main(String[] args) {
         ConnectDB connect = new ConnectDB();
         Connection CONNECT = connect.getConetion();
-
-          //ProductsCRUD pro = new ProductsCRUD("HFSDKJK", "FGFHFG", "FGFHGF", "FGFGH", 20);
+//
+//          ProductsCRUD pro = new ProductsCRUD("HFS", "FGFHFG", "FGFHGF", "FGFGH", 20);
           ProductsCRUD pro = new ProductsCRUD("12345678");
-          //pro.modify();
+          pro.modify();
           pro.delete();
-          //pro.insert();
+          pro.insert();
+//          
+//          Utils util = new Utils();
+//          util.exits("HFS", "Productos");
+//          System.out.print(util.getExitsElement());
 //        pro.setNombre("sdgdfgf");
 //        pro.updateProduct();
 //        pro.deleteProduct();

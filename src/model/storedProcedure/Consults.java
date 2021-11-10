@@ -69,10 +69,10 @@ public class Consults {
     }
         
     public void insertProduct(String codigo, String nombre, String tipo, String descripcion, float precio,
-            String codigoAlmacen, String tableName){
+            String codigoAlmacen, String tableName, String PK){
         
         String insert = "insert into Productos values (?, ?, ?, ?, ?, ?)";
-        util.validateCod(codigo, tableName);
+        util.validateCod(codigo, tableName, PK);
         if(!util.getValidateCod()){
             if(!codigo.isEmpty()){
                 try(PreparedStatement pstm = CONNECT.prepareStatement(insert);){
@@ -123,8 +123,8 @@ public class Consults {
         }
     }
     
-    public void modify(String codigo, String update, String tableName){
-        util.validateCod(codigo, tableName);
+    public void modify(String codigo, String update, String tableName, String PK){
+        util.validateCod(codigo, tableName, PK);
         if(util.getExitsElement()){
             if(!codigo.isEmpty()){
                 try(Statement stm = CONNECT.createStatement();){
@@ -150,8 +150,8 @@ public class Consults {
         }
     }
     
-    public void delete(String codigo, String delete, String tableName){
-        util.validateCod(codigo, tableName);
+    public void delete(String codigo, String delete, String tableName, String PK){
+        util.validateCod(codigo, tableName, PK);
         if(util.getExitsElement()){
             try(Statement stm = CONNECT.createStatement();){
                 stm.executeUpdate(delete);
@@ -162,8 +162,7 @@ public class Consults {
                 JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar el "
                         + "\n" + tableName, "Error Borrado", JOptionPane.WARNING_MESSAGE);
             }
-        }else JOptionPane.showMessageDialog(null, "ERROR: \nEl codigo del " + tableName
-                + " no existe", "Codigo de " + tableName, JOptionPane.WARNING_MESSAGE);
+        }
     }
     
 }

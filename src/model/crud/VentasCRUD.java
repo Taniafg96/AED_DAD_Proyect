@@ -84,14 +84,14 @@ public class VentasCRUD {
             String update = "UPDATE Ventas SET " + fields
                             + " WHERE Id_Venta = '" + ID + "'"; 
 
-            consult.modify(ID, update, "Ventas");
+            consult.modify(ID, update, "Ventas", "Id_Venta");
         }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
                 "Modificacion", JOptionPane.WARNING_MESSAGE);
     }
     
     public void delete(){
         String delete = "DELETE FROM Ventas WHERE Id_Venta = '" + ID + "'";
-        consult.delete(ID, delete , "Ventas");
+        consult.delete(ID, delete , "Ventas", "Id_Venta");
     }
     
 }

@@ -81,7 +81,7 @@ public class ProductsCRUD {
     
     public void delete(){
         String delete = "DELETE FROM Productos WHERE codigo = '" + codigo + "'";
-        consult.delete(codigo, delete, "producto");
+        consult.delete(codigo, delete, "Productos", "codigo");
     }
     
     public void modify(){    
@@ -97,14 +97,14 @@ public class ProductsCRUD {
             String update = "UPDATE Productos SET " + fields
                             + " WHERE codigo = '" + codigo + "'"; 
 
-            consult.modify(codigo, update, "Productos");
+            consult.modify(codigo, update, "Productos", "codigo");
         }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
                 "Modificacion", JOptionPane.WARNING_MESSAGE);
     }
     
     public void insert(){
         consult.insertProduct(codigo, nombre, tipo, descripcion, precio, 
-            CODIGOALMACEN, "Productos");
+            CODIGOALMACEN, "Productos", "codigo");
     }
     
 }

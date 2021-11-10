@@ -12,7 +12,6 @@ import model.Connection.ConnectDB;
  * @author tania
  */
 public class Utils {
-    private final Connection CONNECT = new ConnectDB().getConetion();
     private Boolean validateCod = false;
     private Boolean exitsElement = false;
     
@@ -24,8 +23,8 @@ public class Utils {
         return exitsElement;
     }   
     
-    public void validateCod(String codigo, String tableName){   
-        exits(codigo, tableName);
+    public void validateCod(String codigo, String tableName, String PK){   
+        exits(codigo, tableName, PK);
         if(exitsElement){
             if(codigo.length() > 13){
                 JOptionPane.showMessageDialog(null, "ERROR:\n El codigo del producto"
@@ -35,17 +34,20 @@ public class Utils {
         }
     }
     
-    public void exits(String codigo, String tableName){
-        String consult = null;
-        try(Statement stm = CONNECT.createStatement();){
-            if(tableName.equals("Ventas")) consult = "SELECT * FROM " + tableName +" WHERE Id_Venta ='" + codigo + "'";
-            if(tableName.equals("Productos")) consult = "SELECT * FROM " + tableName +" WHERE codigo ='" + codigo + "'";
+    public void exits(String codigo, String tableName, String PK){
+        String consult = "SELECT * FROM " + tableName +" WHERE " + PK + " ='" + codigo + "'";
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
             
             ResultSet rs = stm.executeQuery(consult);
             exitsElement = rs.next();
+            
+            rs.close();
+            stm.close();
+            CONNECT.close();
         }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null, "ERROR:\n" + codigo
-                    + " no existe en la Base de Datos", "Error Consulta", JOptionPane.WARNING_MESSAGE);
+                    + " no existe en la Base de Datos" + ex.getMessage(), "Error Consulta", JOptionPane.WARNING_MESSAGE);
         }
     }
     
@@ -57,7 +59,8 @@ public class Utils {
 
     public String generateIDSales(){
         int id = 0;
-        try(Statement stm = CONNECT.createStatement();){
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
             String consult = "SELECT Id_Venta FROM Ventas";
             ResultSet rs  = stm.executeQuery(consult);
             
@@ -65,6 +68,10 @@ public class Utils {
             while(rs.next()){
                 if(rs.isLast()) id = Integer.parseInt(rs.getString("Id_Venta")) + 1;
             }
+            
+            rs.close();
+            stm.close();
+            CONNECT.close();
         }catch(SQLException ex){
             ex.printStackTrace();
         }
