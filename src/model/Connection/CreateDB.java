@@ -84,7 +84,6 @@ public class CreateDB{
                             "    apellidos varchar(50),\n" +
                             "    contrasenia varchar(20),\n" +
                             "    rol varchar(20), \n" +
-                            "    permisos  varchar(50),\n" +
                             "    primary key (dni)\n" +
                             ")");
             System.out.println("La tabla Usuarios se ha creado con exito");
@@ -114,13 +113,11 @@ public class CreateDB{
         try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Ventas(\n" +
-                            "    Id_Venta int NOT NULL AUTO_INCREMENT,\n" +
                             "	 CantidadProducto int,\n" +
                             "    PrecioTotal decimal (6,2),\n" +
                             "    DNI_Empleado varchar (9),\n" +
                             "    codigo_producto varchar (10),\n" +
                             "    id_cliente varchar (20),\n" +
-                            "    primary key (Id_Venta), \n" +
                             "    foreign key (DNI_Empleado) references Usuarios(dni),\n" +
                             "    foreign key (codigo_producto) references Productos (codigo),\n" +
                             "    foreign key (id_cliente) references Clientes (Id)\n" +

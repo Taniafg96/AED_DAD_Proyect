@@ -39,6 +39,9 @@ public class ProductsCRUD {
         consult.searchProducto(codigo);
     }
 
+    public ProductsCRUD(){
+    }
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -79,12 +82,12 @@ public class ProductsCRUD {
         return CODIGOALMACEN;
     }
     
-    public void delete(){
+    public void delete(String codigo){
         String delete = "DELETE FROM Productos WHERE codigo = '" + codigo + "'";
         consult.deleteProduct(codigo, delete);
     }
     
-    public void modify(){    
+    public void modify(String codigo, String nombre, String tipo, String descripcion, Float precio){    
         consult.modifyProduct(codigo, nombre, tipo, descripcion, precio);
     }
     

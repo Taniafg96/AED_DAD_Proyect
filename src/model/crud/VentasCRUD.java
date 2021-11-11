@@ -35,8 +35,7 @@ public class VentasCRUD {
         this.idClient = idClient;
     }
     
-    public VentasCRUD(int ID){
-        consult.searchVenta(ID);
+    public VentasCRUD(){
     }
     
     public void setProductLot(int productLot) {
@@ -71,24 +70,22 @@ public class VentasCRUD {
         consult.insertSale(productLot, totalPrice, dni, codProduct, idClient);
     }
     
-    public void modify(){
+    public void modify(int ID){
         String fields= "";
         
-        if(productLot != 0) fields += " CantidadProducto = '" + productLot + "', ";
-        if(totalPrice != 0) fields += " PrecioTotal = '" + totalPrice + "', ";
 
         if(!fields.isEmpty()){
             fields = fields.substring(0, fields.split("").length-2);
         
-            String update = "UPDATE Ventas SET " + fields
-                            + " WHERE Id_Venta = '" + ID + "'"; 
+            String update = "UPDATE Ventas SET CantidadProducto = '" + productLot 
+                    + "' WHERE Id_Venta = '" + ID + "'"; 
 
             consult.modifySale(ID, update);
         }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
                 "Modificacion", JOptionPane.WARNING_MESSAGE);
     }
     
-    public void delete(){
+    public void delete(int ID){
         String delete = "DELETE FROM Ventas WHERE Id_Venta = '" + ID + "'";
         consult.deleteSale(ID, delete);
     }

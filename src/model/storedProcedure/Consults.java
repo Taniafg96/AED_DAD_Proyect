@@ -133,8 +133,8 @@ public class Consults {
         util.validateCod(codigo);
         if(util.getExitsProduct()){
             if(!codigo.isEmpty()){
-                try(PreparedStatement pstm = CONNECT.prepareStatement("update Productos "
-                        + "set nombre = ?, tipo=?, descripcion=?, precio=? where codigo=?");){
+                try(PreparedStatement pstm = CONNECT.prepareStatement("UPDATE Productos "
+                        + "SET nombre = ?, tipo = ?, descripcion = ?, precio=? WHERE codigo = '" + codigo + "'");){
                                     
                     pstm.setString(1, nombre);
                     pstm.setString(2, tipo);
@@ -189,17 +189,14 @@ public class Consults {
     }
     
     public void deleteProduct(String codigo, String delete){
-        util.validateCod(codigo);
-        if(util.getExitsProduct()){
-            try(Statement stm = CONNECT.createStatement();){
-                stm.executeUpdate(delete);
-                JOptionPane.showMessageDialog(null, "Se ha borrado el Producto"
-                        + "\n" + codigo, "Producto Borrado", JOptionPane.INFORMATION_MESSAGE);
+        try(Statement stm = CONNECT.createStatement();){
+            stm.executeUpdate(delete);
+            JOptionPane.showMessageDialog(null, "Se ha borrado el Producto"
+                    + "\n" + codigo, "Producto Borrado", JOptionPane.INFORMATION_MESSAGE);
 
-            }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar el Producto\n" + ex.getMessage(),
-                        "Producto Borrado", JOptionPane.WARNING_MESSAGE);
-            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar el Producto\n" + ex.getMessage(),
+                    "Producto Borrado", JOptionPane.WARNING_MESSAGE);
         }
     }
     
