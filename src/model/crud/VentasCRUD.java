@@ -9,7 +9,7 @@ import model.storedProcedure.Utils;
  * @author Usuario
  */
 public class VentasCRUD {
-    private static String ID;
+    private static int ID;
     private int productLot;
     private float totalPrice;
     private String dni;
@@ -19,7 +19,6 @@ public class VentasCRUD {
     private final Consults consult = new Consults(); 
     
     public VentasCRUD(int productLot, String dni, String codProduct, String idClient) {
-        VentasCRUD.ID = new Utils().generateIDSales();
         this.productLot = productLot;
         this.totalPrice = new Utils().calculateTotalPriceSale(productLot, codProduct);
         this.dni = dni;
@@ -27,7 +26,7 @@ public class VentasCRUD {
         this.idClient = idClient;
     }
 
-    public VentasCRUD(String ID, int productLot, float totalPrice, String dni, String codProduct, String idClient) {
+    public VentasCRUD(int ID, int productLot, float totalPrice, String dni, String codProduct, String idClient) {
         this.ID = ID;
         this.productLot = productLot;
         this.totalPrice = totalPrice;
@@ -36,7 +35,7 @@ public class VentasCRUD {
         this.idClient = idClient;
     }
     
-    public VentasCRUD(String ID){
+    public VentasCRUD(int ID){
         consult.searchVenta(ID);
     }
     
@@ -69,7 +68,7 @@ public class VentasCRUD {
     }
     
     public void insert(){
-        consult.insertSale(ID, productLot, totalPrice, dni, codProduct, idClient, "Ventas");
+        consult.insertSale(productLot, totalPrice, dni, codProduct, idClient);
     }
     
     public void modify(){
@@ -84,14 +83,14 @@ public class VentasCRUD {
             String update = "UPDATE Ventas SET " + fields
                             + " WHERE Id_Venta = '" + ID + "'"; 
 
-            consult.modify(ID, update, "Ventas", "Id_Venta");
+            consult.modifySale(ID, update);
         }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
                 "Modificacion", JOptionPane.WARNING_MESSAGE);
     }
     
     public void delete(){
         String delete = "DELETE FROM Ventas WHERE Id_Venta = '" + ID + "'";
-        consult.delete(ID, delete , "Ventas", "Id_Venta");
+        consult.deleteSale(ID, delete);
     }
     
 }

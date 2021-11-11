@@ -22,24 +22,27 @@ public class Consults {
     
     public Consults(){}
     
-    public VentasCRUD searchVenta(String ID){
+    public VentasCRUD searchVenta(int ID){
         VentasCRUD sale = null;
         String consult = "SELECT * FROM Ventas WHERE Id_Venta = '" + ID + "'";
-        try(Statement stm = CONNECT.createStatement();){
-            ResultSet rs = stm.executeQuery(consult);
-            if(rs.next()){
-                sale = new VentasCRUD(ID, rs.getInt("CantidadProducto"),
-                        rs.getFloat("PrecioTotal"), rs.getString("DNI_Empleado"),
-                        rs.getString("codigo_producto"), rs.getString("id_cliente"));
-                
-            }else JOptionPane.showMessageDialog(null, "No existe una Venta con este ID",
-                    "Consulta venta", JOptionPane.WARNING_MESSAGE);
-      
-            rs.close();
-            stm.close();
-        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "ERROR:\n Al ejecutar la consulta",
-                    "Consulta venta", JOptionPane.WARNING_MESSAGE);
+        util.exitsSale(ID);
+        if(util.getExistSale()){
+            try(Statement stm = CONNECT.createStatement();){
+                ResultSet rs = stm.executeQuery(consult);
+                if(rs.next()){
+                    sale = new VentasCRUD(ID, rs.getInt("CantidadProducto"),
+                            rs.getFloat("PrecioTotal"), rs.getString("DNI_Empleado"),
+                            rs.getString("codigo_producto"), rs.getString("id_cliente"));
+
+                }else JOptionPane.showMessageDialog(null, "No existe una Venta con este ID",
+                        "Consulta venta", JOptionPane.WARNING_MESSAGE);
+
+                rs.close();
+                stm.close();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "ERROR:\n Al ejecutar la consulta",
+                        "Consulta venta", JOptionPane.WARNING_MESSAGE);
+            }
         }
         
         return sale;
@@ -48,31 +51,35 @@ public class Consults {
     public ProductsCRUD searchProducto(String codigo){
         ProductsCRUD product = null;
         String consult = "SELECT * FROM Productos WHERE codigo = '" + codigo + "'";
-        try(Statement stm = CONNECT.createStatement();){
-            ResultSet rs = stm.executeQuery(consult);
-            if(rs.next()){
-                product = new ProductsCRUD(codigo, rs.getString("nombre"),
-                        rs.getString("tipo"), rs.getString("descripcion"),
-                        rs.getFloat("precio"), rs.getString("cod_almacen"));
-                
-            }else JOptionPane.showMessageDialog(null, "No existe un Producto con este codigo",
-                    "Consulta producto", JOptionPane.WARNING_MESSAGE);
+        util.exitsProduct(codigo);
+        if(util.getExitsProduct()){
+            
+            try(Statement stm = CONNECT.createStatement();){
+                ResultSet rs = stm.executeQuery(consult);
+                if(rs.next()){
+                    product = new ProductsCRUD(codigo, rs.getString("nombre"),
+                            rs.getString("tipo"), rs.getString("descripcion"),
+                            rs.getFloat("precio"), rs.getString("cod_almacen"));
 
-            rs.close();
-            stm.close();
-        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "ERROR:\n Al ejecutar la consulta",
-                    "Consulta Producto", JOptionPane.WARNING_MESSAGE);
+                }else JOptionPane.showMessageDialog(null, "No existe un Producto con este codigo",
+                        "Consulta producto", JOptionPane.WARNING_MESSAGE);
+
+                rs.close();
+                stm.close();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "ERROR:\n Al ejecutar la consulta",
+                        "Consulta Producto", JOptionPane.WARNING_MESSAGE);
+            }
         }
         
         return product;
     }
         
     public void insertProduct(String codigo, String nombre, String tipo, String descripcion, float precio,
-            String codigoAlmacen, String tableName, String PK){
+            String codigoAlmacen){
         
         String insert = "insert into Productos values (?, ?, ?, ?, ?, ?)";
-        util.validateCod(codigo, tableName, PK);
+        util.validateCod(codigo);
         if(!util.getValidateCod()){
             if(!codigo.isEmpty()){
                 try(PreparedStatement pstm = CONNECT.prepareStatement(insert);){
@@ -84,83 +91,129 @@ public class Consults {
                     pstm.setString(6, "QWERTY001");
 
                     pstm.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "El " + tableName + " se "
-                            + "ha insertado con exito", tableName + " Insertado", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "El Producto se "
+                            + "ha insertado con exito", "Producto Insertado", JOptionPane.INFORMATION_MESSAGE);
 
                     pstm.close();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "ERROR: \nAl insertar el "
-                             + tableName + ex.getMessage(), tableName + " Insertado", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "ERROR: \nAl insertar el Producto\n" + ex.getMessage()
+                            , "Producto Insertado", JOptionPane.WARNING_MESSAGE);
                 }
 
-            }else JOptionPane.showMessageDialog(null, "ERROR: \nEl codigo del" + tableName
-                    + "no puede estar vacio: \n", tableName + " Insertado", 
+            }else JOptionPane.showMessageDialog(null, "ERROR: \nEl codigo del Producto "
+                    + "no puede estar vacio: \n", "Producto Insertado", 
                     JOptionPane.WARNING_MESSAGE);
         }
     }
     
-    public void insertSale(String id, int productLot, float totalPrice, String dni, String codProduct, String idClient, String tableName){
+    public void insertSale(int productLot, float totalPrice, String dni, String codProduct, String idClient){
         if(!codProduct.isEmpty() && !idClient.isEmpty() && !dni.isEmpty()){
-            String call = "{call insertSale(?,?,?,?,?,?)}";
+            String call = "{call insertSale(?,?,?,?,?)}";
             try(CallableStatement cstm = CONNECT.prepareCall(call)){
                 
-                cstm.setString("Id_Ventas", id);
                 cstm.setInt("productLot", productLot);
                 cstm.setFloat("totalPrice", totalPrice);
-                cstm.setString("dni", "11111111A");
-                cstm.setString("codProduct", "12345678");
-                cstm.setString("idClient", "QAZ123");
+                cstm.setString("dni", dni);
+                cstm.setString("codProduct", codProduct);
+                cstm.setString("idClient", idClient);
 
                 cstm.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "El " + tableName + " se "
-                    + "ha insertado con exito", tableName + " Insertado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "La Venta se ha insertado con exito"
+                        , "Venta Insertada", JOptionPane.INFORMATION_MESSAGE);
                 cstm.close();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "ERROR: \n"
-                         + ex.getMessage(), tableName + " Insertado", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ERROR: \n Insertar la venta\n" + ex.getMessage()
+                        , "Venta Insertada\n", JOptionPane.WARNING_MESSAGE);
             }
         }
     }
     
-    public void modify(String codigo, String update, String tableName, String PK){
-        util.validateCod(codigo, tableName, PK);
-        if(util.getExitsElement()){
+    public void modifyProduct(String codigo, String nombre, String tipo, String descripcion, Float precio){
+        util.validateCod(codigo);
+        if(util.getExitsProduct()){
             if(!codigo.isEmpty()){
+                try(PreparedStatement pstm = CONNECT.prepareStatement("update Productos "
+                        + "set nombre = ?, tipo=?, descripcion=?, precio=? where codigo=?");){
+                                    
+                    pstm.setString(1, nombre);
+                    pstm.setString(2, tipo);
+                    pstm.setString(3, descripcion);
+                    pstm.setFloat(4, precio);
+                    pstm.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "La modificacion se ha "
+                        + "realizado con exito", "Producto Modificado", JOptionPane.INFORMATION_MESSAGE);
+                     pstm.close();
+                }
+                catch(SQLException ex){
+                    if(ex.getErrorCode() == 1054){
+                        JOptionPane.showMessageDialog(null, "ERROR: \nNo existe el "
+                                + "codigo del Producto \n"  + ex.getMessage(), "Codigo de Producto", JOptionPane.WARNING_MESSAGE);
+
+                    }else JOptionPane.showMessageDialog(null, "ERROR: \nError en la "
+                            + "modificacion\n" + ex.getMessage(), "Producto Modificado", JOptionPane.WARNING_MESSAGE);
+                }
+
+            }else JOptionPane.showMessageDialog(null, "ERROR: \nEl codigo del Producto " 
+                    + " esta vacio", "Codigo de Producto", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+    
+        public void modifySale(int id, String update){
+        util.exitsSale(id);
+        if(util.getExistSale()){
+            if(id != 0){
                 try(Statement stm = CONNECT.createStatement();){
                      stm.executeUpdate(update);
 
                     JOptionPane.showMessageDialog(null, "La modificacion se ha "
-                        + "realizado con exito", tableName + " Modificado", JOptionPane.INFORMATION_MESSAGE);
+                        + "realizado con exito", "Venta Modificada", JOptionPane.INFORMATION_MESSAGE);
                      stm.close();
 
                 }
                 catch(SQLException ex){
                     if(ex.getErrorCode() == 1054){
                         JOptionPane.showMessageDialog(null, "ERROR: \nNo existe el "
-                                + "codigo de \n" + tableName + ex.getMessage(), "Codigo de " + tableName, JOptionPane.WARNING_MESSAGE);
+                                + "id de la Venta\n" + ex.getMessage(), "Venta Modificada", JOptionPane.WARNING_MESSAGE);
 
                     }else JOptionPane.showMessageDialog(null, "ERROR: \nError en la "
-                            + "modificacion\n" + ex.getMessage(), "Producto Modificado", JOptionPane.WARNING_MESSAGE);
+                            + "modificacion\n" + ex.getMessage(), "Venta Modificada", JOptionPane.WARNING_MESSAGE);
                 }
 
-            }else JOptionPane.showMessageDialog(null, "ERROR: \nEl codigo de " + tableName
-                    + " esta vacio", "Codigo de " +tableName, JOptionPane.WARNING_MESSAGE);
+            }else JOptionPane.showMessageDialog(null, "ERROR: \nEl id esta vacio"
+                    , "Venta Modificada", JOptionPane.WARNING_MESSAGE);
 
         }
     }
     
-    public void delete(String codigo, String delete, String tableName, String PK){
-        util.validateCod(codigo, tableName, PK);
-        if(util.getExitsElement()){
+    public void deleteProduct(String codigo, String delete){
+        util.validateCod(codigo);
+        if(util.getExitsProduct()){
             try(Statement stm = CONNECT.createStatement();){
                 stm.executeUpdate(delete);
-                JOptionPane.showMessageDialog(null, "Se ha borrado el "
-                        + "\n" + tableName + " " + codigo, tableName + "Borrado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se ha borrado el Producto"
+                        + "\n" + codigo, "Producto Borrado", JOptionPane.INFORMATION_MESSAGE);
 
             }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar el "
-                        + "\n" + tableName, "Error Borrado", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar el Producto\n" + ex.getMessage(),
+                        "Producto Borrado", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+    
+    public void deleteSale(int id, String delete){
+        util.exitsSale(id);
+        if(util.getExistSale()){
+            try(Statement stm = CONNECT.createStatement();){
+                stm.executeUpdate(delete);
+                JOptionPane.showMessageDialog(null, "Se ha borrado la Venta "+ id
+                        , "Venta Borrado", JOptionPane.INFORMATION_MESSAGE);
+
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "ERROR: \nNo se pudo borrar la Venta"
+                        , "Venta Borrado", JOptionPane.WARNING_MESSAGE);
             }
         }
     }

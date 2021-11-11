@@ -81,30 +81,16 @@ public class ProductsCRUD {
     
     public void delete(){
         String delete = "DELETE FROM Productos WHERE codigo = '" + codigo + "'";
-        consult.delete(codigo, delete, "Productos", "codigo");
+        consult.deleteProduct(codigo, delete);
     }
     
     public void modify(){    
-        String fields = "";
-        
-        if(!nombre.isEmpty()) fields += "nombre = '" + nombre + "', ";
-        if(!tipo.isEmpty()) fields += "tipo = '" + tipo + "', ";
-        if(!descripcion.isEmpty()) fields += "descripcion = '" + descripcion + "', ";
-        if(precio != 0 ) fields += "precio = '" + precio + "', ";
-
-        if(!fields.isEmpty()){
-            fields = fields.substring(0, fields.split("").length-2);
-            String update = "UPDATE Productos SET " + fields
-                            + " WHERE codigo = '" + codigo + "'"; 
-
-            consult.modify(codigo, update, "Productos", "codigo");
-        }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
-                "Modificacion", JOptionPane.WARNING_MESSAGE);
+        consult.modifyProduct(codigo, nombre, tipo, descripcion, precio);
     }
     
     public void insert(){
         consult.insertProduct(codigo, nombre, tipo, descripcion, precio, 
-            CODIGOALMACEN, "Productos", "codigo");
+            CODIGOALMACEN);
     }
     
 }

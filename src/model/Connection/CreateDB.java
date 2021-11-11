@@ -114,7 +114,7 @@ public class CreateDB{
         try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Ventas(\n" +
-                            "    Id_Venta varchar (13),\n" +
+                            "    Id_Venta int NOT NULL AUTO_INCREMENT,\n" +
                             "	 CantidadProducto int,\n" +
                             "    PrecioTotal decimal (6,2),\n" +
                             "    DNI_Empleado varchar (9),\n" +

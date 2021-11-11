@@ -23,12 +23,11 @@ public class Main {
     public static void main(String[] args) {
         ConnectDB connect = new ConnectDB();
         Connection CONNECT = connect.getConetion();
-//
-//          ProductsCRUD pro = new ProductsCRUD("HFS", "FGFHFG", "FGFHGF", "FGFGH", 20);
-//          ProductsCRUD pro = new ProductsCRUD("12345678");
-//          pro.modify();
-//          pro.delete();
-//          pro.insert();
+
+          //ProductsCRUD pro = new ProductsCRUD("HFS", "FGFHFG", "FGFHGF", "FGFGH", 20);
+          ProductsCRUD pro = new ProductsCRUD("HFS");
+          pro.delete();
+          //pro.insert();
 //          
 //          Utils util = new Utils();
 //          util.exits("HFS", "Productos");
@@ -37,17 +36,18 @@ public class Main {
 //        pro.updateProduct();
 //        pro.deleteProduct();
 //        
-        VentasCRUD ventas = new VentasCRUD(100, "fhfhgfh", "ghgfhfg", "ghfghgh"); 
-        //VentasCRUD ventas = new VentasCRUD("7");
-        ventas.insert();
-        ventas.modify();
+        //VentasCRUD ventas = new VentasCRUD(100, "11111111A", "HFS", "QAZ123"); 
+//        VentasCRUD ventas = new VentasCRUD(1);
+////        ventas.insert();
+//    ventas.setProductLot(200);
+//        ventas.modify();
         try(Statement stm = CONNECT.createStatement();){
             ResultSet rs = stm.executeQuery("SELECT * "
-                                            + "FROM Ventas");
+                                            + "FROM Productos");
             
             while(rs.next()){
-                System.out.println(rs.getString("Id_Venta"));
-                System.out.println(rs.getInt("CantidadProducto")); 
+                System.out.println(rs.getString("codigo"));
+                System.out.println(rs.getString("nombre")); 
             }
             
             rs.close();
