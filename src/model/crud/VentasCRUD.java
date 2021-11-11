@@ -18,10 +18,10 @@ public class VentasCRUD {
 
     private final Consults consult = new Consults(); 
     
-    public VentasCRUD(int productLot, float totalPrice, String dni, String codProduct, String idClient) {
+    public VentasCRUD(int productLot, String dni, String codProduct, String idClient) {
         VentasCRUD.ID = new Utils().generateIDSales();
         this.productLot = productLot;
-        this.totalPrice = totalPrice;
+        this.totalPrice = new Utils().calculateTotalPriceSale(productLot, codProduct);
         this.dni = dni;
         this.codProduct = codProduct;
         this.idClient = idClient;

@@ -66,7 +66,7 @@ public class Utils {
             
             if(!rs.next()) id = 1;
             while(rs.next()){
-                if(rs.isLast()) id = Integer.parseInt(rs.getString("Id_Venta")) + 1;
+                if(rs.isLast()) id = Integer.parseInt(rs.getString("Id_Venta")) + 2;
             }
             
             rs.close();
@@ -79,4 +79,24 @@ public class Utils {
         return String.valueOf(id);
     }
     
+    public float calculateTotalPriceSale(int lot, String codProduct){
+        float amount = 0;
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
+            String consult = "SELECT precio FROM Productos WHERE codigo = '" + codProduct +"'";
+            ResultSet rs  = stm.executeQuery(consult);
+            
+            if(rs.next()) amount = rs.getInt("precio") * lot;
+            else JOptionPane.showMessageDialog(null, "ERROR:"
+                + "\n ", "Codigo Incorrecto", JOptionPane.WARNING_MESSAGE);
+                
+            rs.close();
+            stm.close();
+            CONNECT.close();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return amount;
+    }
 }
