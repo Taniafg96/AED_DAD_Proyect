@@ -421,7 +421,7 @@ public class Clientess extends javax.swing.JPanel {
         String telefono = campoTelefono.getText();
         String correo = campoCorreo.getText();
         
-        if(id.equals("Ingrese ID")){
+        if(id.equals("Ingrese ID") || id.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir id para poder actualizar ");
         }else{
            try {
@@ -447,23 +447,31 @@ public class Clientess extends javax.swing.JPanel {
     }//GEN-LAST:event_btnInsertarMouseClicked
 
     private void btnBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarMouseClicked
-        try {
-        //Establecer conexion
-        Connection con = new ConnectDB().getConetion();
+        String id = campoID.getText();
         
-        //Borrar
-        PreparedStatement ps = con.prepareStatement("delete from clientes where Id=?");
-        ps.setString(1, campoID.getText());
-        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere borrar la fila?", "", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-        if(respuesta == 0){
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Datos eliminados correctame");
-            limpiar();
-            mostrarTabla();
+        if(id.equals("Ingrese ID") || id.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe introducir un ID existente");
+        }else{
+            try {
+                //Establecer conexion
+                Connection con = new ConnectDB().getConetion();
+
+                //Borrar
+                PreparedStatement ps = con.prepareStatement("delete from clientes where Id=?");
+                ps.setString(1, campoID.getText());
+                int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere borrar la fila?", "", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                if(respuesta == 0){
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Datos eliminados correctame");
+                    limpiar();
+                    mostrarTabla();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.toString());
+            } 
         }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
-        }
+        
+        
     }//GEN-LAST:event_btnBorrarMouseClicked
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
@@ -474,7 +482,7 @@ public class Clientess extends javax.swing.JPanel {
         String telefono = campoTelefono.getText();
         String correo = campoCorreo.getText();
 
-        if(id.equals("Ingrese ID")){
+        if(id.equals("Ingrese ID") || id.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir id para poder actualizar ");
         }else{
             try {
@@ -503,7 +511,7 @@ public class Clientess extends javax.swing.JPanel {
         //Variables que contendran los datos insertados en los campos: ID, NOMBRE, DIRECCION, TELEFONO, CORREO
         String id = campoID.getText();
         
-        if(id.equals("Ingrese ID")){
+        if(id.equals("Ingrese ID") || id.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir id para poder hacer una búsqueda ");
         }else{
             Connection con = new ConnectDB().getConetion();

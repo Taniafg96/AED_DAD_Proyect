@@ -214,8 +214,8 @@ public class Login2 extends javax.swing.JFrame {
             v.setVisible(true);
         }else{
            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-           campoUsuario.setText("");
-           campoPass.setText("");
+           campoUsuario.setText("Usuario");
+           campoPass.setText("password");
         }
     }//GEN-LAST:event_botonLoginMouseClicked
 

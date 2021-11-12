@@ -7,6 +7,7 @@ package view;
 
 import images.img.Borr2;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -55,6 +56,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
         menuLogout.setText("LOGOUT");
         menuLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menuLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuLogoutMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 menuLogoutMouseEntered(evt);
             }
@@ -227,6 +231,16 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private void menuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuInicioMouseClicked
         nuevoPanel(in); 
     }//GEN-LAST:event_menuInicioMouseClicked
+
+    private void menuLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseClicked
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere cerrar sesión?", "", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        if(respuesta == 0){
+            //Cierra el Frame actual
+            this.dispose();
+            Login2 login = new Login2();
+            login.setVisible(true);
+        }
+    }//GEN-LAST:event_menuLogoutMouseClicked
 
     //Metodo para pintar los paneles
     public void nuevoPanel(JPanel panel){
