@@ -7,6 +7,7 @@ package controller.main;
 
 import java.util.Arrays;
 import model.Connection.ConnectDB;
+import model.storedProcedure.Consults;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Main {
         //new ClienteCRUD().update(cl);
         
         new  ConnectDB("root", "admin");
-        
+        Consults consult = new Consults();
+        System.out.println(consult.getCantidadproducto("11233394"));
     }
 }

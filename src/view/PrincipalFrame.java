@@ -104,7 +104,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         menuProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         menuProductos.setForeground(new java.awt.Color(255, 255, 255));
         menuProductos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        menuProductos.setText("PROUDCTOS");
+        menuProductos.setText("PRODUCTOS");
         menuProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menuProductos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -143,6 +143,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
         menuGrafico.setText("GRAFICO");
         menuGrafico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menuGrafico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuGraficoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 menuGraficoMouseEntered(evt);
             }
@@ -241,6 +244,10 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private void menuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuVentasMouseClicked
         nuevoPanel(new Ventas());
     }//GEN-LAST:event_menuVentasMouseClicked
+
+    private void menuGraficoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGraficoMouseClicked
+       nuevoPanel(new Grafico());
+    }//GEN-LAST:event_menuGraficoMouseClicked
 
     //Metodo para pintar los paneles
     public void nuevoPanel(JPanel panel){
