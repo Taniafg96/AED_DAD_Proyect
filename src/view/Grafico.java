@@ -5,42 +5,37 @@
  */
 package view;
 
-import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.BorderFactory;
+import model.Connection.ConnectDB;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.TextTitle;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleEdge;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 
 /**
  *
  * @author Usuario
  */
 public class Grafico extends javax.swing.JPanel {
-
     /**
      * Creates new form Grafico
      */
     public Grafico() {
         initComponents();
-        createChart(createDataset());
+        c();
     }
 
     /**
@@ -51,6 +46,8 @@ public class Grafico extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        setBackground(new java.awt.Color(230, 251, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -64,67 +61,80 @@ public class Grafico extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private static JFreeChart createChart(PieDataset dataset) {
-
-        JFreeChart chart = ChartFactory.createPieChart(
-                "TUTOR DE PROGRAMACION", dataset, false, false, false);
-
-        chart.setBackgroundPaint(new GradientPaint(new Point(0, 0),
-                new Color(20, 20, 20), new Point(400, 200), Color.DARK_GRAY));
-
-        TextTitle t = chart.getTitle();
-        t.setHorizontalAlignment(HorizontalAlignment.CENTER);
-        t.setPaint(new Color(240, 240, 240));
-        t.setFont(new Font("Arial", Font.BOLD, 26));
-
-        PiePlot plot = (PiePlot) chart.getPlot();
-
-        plot.setBackgroundPaint(null);
-        plot.setInteriorGap(0.04);
-        plot.setOutlineVisible(false);
-        plot.setShadowPaint(null);
-        plot.setLabelShadowPaint(null);
-        plot.setBaseSectionOutlinePaint(Color.WHITE);
-        plot.setSectionOutlinesVisible(true);
-        plot.setBaseSectionOutlineStroke(new BasicStroke(2.0f));
-        plot.setLabelFont(new Font("Courier New", Font.BOLD, 20));
-        plot.setLabelLinkPaint(Color.WHITE);
-        plot.setLabelLinkStroke(new BasicStroke(2.0f));
-        plot.setLabelOutlineStroke(null);
-        plot.setLabelPaint(Color.WHITE);
-        plot.setLabelBackgroundPaint(null);
-
-        TextTitle url = new TextTitle(
-                "Blog Oficial: http://acodigo.blospot.com",
-                new Font("Courier New", Font.PLAIN, 12));
-        url.setPaint(Color.WHITE);
-        url.setPosition(RectangleEdge.BOTTOM);
-        url.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-
-        TextTitle description = new TextTitle(
-                "Los tutoriales mas frecuentes en nuestro blog",
-                new Font("Arial", Font.PLAIN, 18));
-        description.setPaint(Color.LIGHT_GRAY);
-        description.setPosition(RectangleEdge.TOP);
-        description.setHorizontalAlignment(HorizontalAlignment.LEFT);
-
-        chart.addSubtitle(description);
-        chart.addSubtitle(url);
-
-        return chart;
+    private void c(){
+        int precioTotal = 200;
+        int n2 = 400;
+        int n3 = 300;
+        
+        DefaultCategoryDataset data = new DefaultCategoryDataset();
+        for(Map.Entry<String, Integer> entryPrice : totalPriceProducts().entrySet()){
+            for(Map.Entry<String, String> entryName : nameProducts().entrySet()){
+                if(entryPrice.getKey().equals(entryName.getKey()))
+                    data.setValue(entryPrice.getValue(), "Prodcucto", entryName.getValue());
+            }
+        }
+        
+        JFreeChart graphic = ChartFactory.createBarChart3D("PrecioProducto", 
+                "Productos", "Precio", data,
+                PlotOrientation.VERTICAL, true, true, false);
+       
+        ChartPanel panel = new ChartPanel(graphic);
+        
+        setLayout(new FlowLayout());
+        add(new ChartPanel(graphic));
     }
     
-    private static PieDataset createDataset() {
-    DefaultPieDataset dataset = new DefaultPieDataset();
-    dataset.setValue("OpenCV 3.x", new Double(40.0));
-    dataset.setValue("Java", new Double(20.0));
-    dataset.setValue("Python 3.x", new Double(20.0));
-    dataset.setValue("OpengGL", new Double(10.5));
-    dataset.setValue("Win32", new Double(5.25));
-    dataset.setValue(".NET", new Double(5.25));
-    return dataset;
-}
-
+    private HashMap <String, Integer> totalPriceProducts(){
+        String consult = " SELECT\n" +
+                         " SUM(PrecioTotal) as cantidad," +
+                         " codigo_producto\n" +
+                         " FROM Ventas\n"+
+                         " GROUP BY codigo_producto";
+        
+        HashMap <String, Integer> map = new HashMap <> ();
+        
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
+                
+            ResultSet rs = stm.executeQuery(consult);
+            while(rs.next()){
+                map.put(rs.getString("codigo_producto"), rs.getInt("cantidad"));
+            }
+            
+            stm.close();
+            CONNECT.close();
+        }catch(SQLException ex){
+            
+        }
+        
+        return map;
+    }
+    
+    private HashMap <String, String> nameProducts(){
+         String consult = " SELECT\n" +
+                         " codigo,\n" +
+                         " nombre\n" +
+                         " FROM Productos";
+        
+        HashMap <String, String> map = new HashMap <> ();
+        
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
+                
+            ResultSet rs = stm.executeQuery(consult);
+            while(rs.next()){
+                map.put(rs.getString("codigo"), rs.getString("nombre"));
+            }
+            
+            stm.close();
+            CONNECT.close();
+        }catch(SQLException ex){
+            
+        }
+        
+        return map;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
 }

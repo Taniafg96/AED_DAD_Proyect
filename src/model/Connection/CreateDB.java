@@ -113,11 +113,13 @@ public class CreateDB{
         try (Connection connect = DriverManager.getConnection(DATABASE + DATABASENAME, user, password);
                 Statement db = connect.createStatement();){
             db.executeUpdate("CREATE TABLE Ventas(\n" +
+                            "    Id_Venta int NOT NULL AUTO_INCREMENT, \n" +
                             "	 CantidadProducto int,\n" +
                             "    PrecioTotal decimal (6,2),\n" +
                             "    DNI_Empleado varchar (9),\n" +
                             "    codigo_producto varchar (10),\n" +
                             "    id_cliente varchar (20),\n" +
+                            "    primary key(Id_Venta), \n" +
                             "    foreign key (DNI_Empleado) references Usuarios(dni),\n" +
                             "    foreign key (codigo_producto) references Productos (codigo),\n" +
                             "    foreign key (id_cliente) references Clientes (Id)\n" +
@@ -141,14 +143,17 @@ public class CreateDB{
             db.executeUpdate("insert into Productos values ('11233394', 'Aire comprimido', 'Accesorio', null, 5,'QWERTY001')");
             
             
-            db.executeUpdate("insert into Usuarios values ('11111111A', 'Administrador', 'root', 'password', 'QAZWSX123', 'administrador')");
-            db.executeUpdate("insert into Usuarios values ('22222222B', 'Juan', 'Pérez', '1234', 'PLMOKN123', 'normal')");
-            db.executeUpdate("insert into Usuarios values ('33333333C', 'Ana', 'Castillo', '1234', 'PLMOKN123', 'normal')");
-            db.executeUpdate("insert into Usuarios values ('44444444D', 'Luca', 'Padrón', '1234', 'PLMOKN123', 'normal')");
+            db.executeUpdate("insert into Usuarios values ('11111111A', 'Administrador', 'root', 'password', 'administrador')");
+            db.executeUpdate("insert into Usuarios values ('22222222B', 'Juan', 'Pérez', '1234', 'normal')");
+            db.executeUpdate("insert into Usuarios values ('33333333C', 'Ana', 'Castillo', '1234', 'normal')");
+            db.executeUpdate("insert into Usuarios values ('44444444D', 'Luca', 'Padrón', '1234', 'normal')");
             
             db.executeUpdate("insert into Clientes values ('QAZ123', 'María López', 'C/ Random Nº10 La Laguna', '664738283', 'marialopez@gmail.com')");
             db.executeUpdate("insert into Clientes values ('WSX456', 'Juan Piedra', 'C/ Aleatorio Nº4 Santa Cruz', '663090909', 'juanpiedra@gmail.com')");
 
+            db.executeUpdate("insert into Ventas(CantidadProducto, PrecioTotal, DNI_Empleado, codigo_producto, id_cliente) values (20, 9, '11111111A', '12345678', 'QAZ123')");
+            db.executeUpdate("insert into Ventas (CantidadProducto, PrecioTotal, DNI_Empleado, codigo_producto, id_cliente)  values (2, 2300, '11111111A', '12345678', 'QAZ123')");
+            db.executeUpdate("insert into Ventas (CantidadProducto, PrecioTotal, DNI_Empleado, codigo_producto, id_cliente)  values (210, 20, '11111111A', '12345678', 'WSX456')");
             
             System.out.println("Se han insertado los valores con exito");
         } catch (SQLException ex) {

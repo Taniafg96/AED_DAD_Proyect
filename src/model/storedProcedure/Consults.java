@@ -129,23 +129,23 @@ public class Consults {
         }
     }
     
-    public int getCantidadproducto(String codigo){
-            int cantidad = 0;
-            String call = "{call getCantidad(?, ?)}";
-            try(CallableStatement cstm = CONNECT.prepareCall(call)){
-                cstm.setString("cod_Produto", codigo);
-                cantidad = cstm.registerOutParameter(2, java.sql.Types.INTEGER);
-                ResultSet rs = cstm.executeQuery();
-                JOptionPane.showMessageDialog(null, "La Venta se ha insertado con exito"
-                        , "Venta Insertada", JOptionPane.INFORMATION_MESSAGE);
-                cstm.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "ERROR: \n Insertar la venta\n" + ex.getMessage()
-                        , "Venta Insertada\n", JOptionPane.WARNING_MESSAGE);
-            }
-            return cantidad;
-    }
-    
+//    public int getCantidadproducto(String codigo){
+//            int cantidad = 0;
+//            String call = "{call getCantidad(?, ?)}";
+//            try(CallableStatement cstm = CONNECT.prepareCall(call)){
+//                cstm.setString("cod_Produto", codigo);
+//                cantidad = cstm.registerOutParameter(2, java.sql.Types.INTEGER);
+//                ResultSet rs = cstm.executeQuery();
+//                JOptionPane.showMessageDialog(null, "La Venta se ha insertado con exito"
+//                        , "Venta Insertada", JOptionPane.INFORMATION_MESSAGE);
+//                cstm.close();
+//            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "ERROR: \n Insertar la venta\n" + ex.getMessage()
+//                        , "Venta Insertada\n", JOptionPane.WARNING_MESSAGE);
+//            }
+//            return cantidad;
+//    }
+//    
     public void modifyProduct(String codigo, String nombre, String tipo, String descripcion, Float precio){
         util.validateCod(codigo);
         if(util.getExitsProduct()){

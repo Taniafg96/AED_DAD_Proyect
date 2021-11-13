@@ -71,18 +71,10 @@ public class VentasCRUD {
     }
     
     public void modify(int ID){
-        String fields= "";
-        
-
-        if(!fields.isEmpty()){
-            fields = fields.substring(0, fields.split("").length-2);
-        
-            String update = "UPDATE Ventas SET CantidadProducto = '" + productLot 
+        String update = "UPDATE Ventas SET CantidadProducto = '" + productLot 
                     + "' WHERE Id_Venta = '" + ID + "'"; 
 
-            consult.modifySale(ID, update);
-        }else JOptionPane.showMessageDialog(null, "No se ha insertado ningun valor", 
-                "Modificacion", JOptionPane.WARNING_MESSAGE);
+        consult.modifySale(ID, update);
     }
     
     public void delete(int ID){

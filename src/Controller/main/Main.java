@@ -5,10 +5,16 @@
  */
 package controller.main;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashMap;
 import model.Connection.ConnectDB;
+import model.crud.VentasCRUD;
 import model.storedProcedure.Consults;
-
+import view.Grafico;
 /**
  *
  * @author Cristo
@@ -28,8 +34,31 @@ public class Main {
         //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
         //new ClienteCRUD().update(cl);
         
-        new  ConnectDB("root", "admin");
-        Consults consult = new Consults();
-        System.out.println(consult.getCantidadproducto("11233394"));
+        System.out.println(totalPriceProducts());
+    }
+    
+    public static HashMap <String, String> totalPriceProducts(){
+         String consult = " SELECT\n" +
+                         " codigo,\n" +
+                         " nombre\n" +
+                         " FROM Productos";
+        
+        HashMap <String, String> map = new HashMap <String, String> ();
+        
+        try(Connection CONNECT = new ConnectDB().getConetion();
+                Statement stm = CONNECT.createStatement();){
+                
+            ResultSet rs = stm.executeQuery(consult);
+            while(rs.next()){
+                map.put(rs.getString("codigo"), rs.getString("nombre"));
+            }
+            
+            stm.close();
+            CONNECT.close();
+        }catch(SQLException ex){
+            
+        }
+        
+        return map;
     }
 }
