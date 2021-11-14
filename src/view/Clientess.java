@@ -19,7 +19,9 @@ import model.Connection.ConnectDB;
  * @author Cristo
  */
 public class Clientess extends javax.swing.JPanel {
-
+    
+    
+    
     /**
      * Creates new form Clientess
      */
@@ -447,7 +449,10 @@ public class Clientess extends javax.swing.JPanel {
     }//GEN-LAST:event_btnInsertarMouseClicked
 
     private void btnBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarMouseClicked
-        String id = campoID.getText();
+        if(PrincipalFrame.USUARIOLOGEADO==true){
+            JOptionPane.showMessageDialog(null, "No tiene permisos para llevar a cabo esta acción");
+        }else{
+            String id = campoID.getText();
         
         if(id.equals("Ingrese ID") || id.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir un ID existente");
@@ -470,41 +475,50 @@ public class Clientess extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, e.toString());
             } 
         }
+        }
+        
         
         
     }//GEN-LAST:event_btnBorrarMouseClicked
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
-         //Variables que contendran los datos insertados en los campos: ID, NOMBRE, DIRECCION, TELEFONO, CORREO
-        String id = campoID.getText();
-        String nombre = campoNombre.getText();
-        String direccion = campoDireccion.getText();
-        String telefono = campoTelefono.getText();
-        String correo = campoCorreo.getText();
-
-        if(id.equals("Ingrese ID") || id.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe introducir id para poder actualizar ");
+        if(PrincipalFrame.USUARIOLOGEADO==true){
+            JOptionPane.showMessageDialog(null, "No tiene permisos para llevar a cabo esta acción");
         }else{
-            try {
-                //Establecer conexion
-                Connection con = new ConnectDB().getConetion();
+           //Variables que contendran los datos insertados en los campos: ID, NOMBRE, DIRECCION, TELEFONO, CORREO
+            String id = campoID.getText();
+            String nombre = campoNombre.getText();
+            String direccion = campoDireccion.getText();
+            String telefono = campoTelefono.getText();
+            String correo = campoCorreo.getText();
 
-                //Insertar campos
-                PreparedStatement ps = con.prepareStatement("update clientes set nombre=?, direccion=?, telefono=?, correo=? where id=?");
-                ps.setString(1, nombre);
-                ps.setString(2, direccion);
-                ps.setString(3, telefono);
-                ps.setString(4, correo);
-                ps.setString(5, id);
-                ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Información actualizada correctamente");
-                limpiar();
-                mostrarTabla();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e.toString());
-                limpiar();
+            if (id.equals("Ingrese ID") || id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe introducir id para poder actualizar ");
+            } else {
+                try {
+                    //Establecer conexion
+                    Connection con = new ConnectDB().getConetion();
+
+                    //Insertar campos
+                    PreparedStatement ps = con.prepareStatement("update clientes set nombre=?, direccion=?, telefono=?, correo=? where id=?");
+                    ps.setString(1, nombre);
+                    ps.setString(2, direccion);
+                    ps.setString(3, telefono);
+                    ps.setString(4, correo);
+                    ps.setString(5, id);
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Información actualizada correctamente");
+                    limpiar();
+                    mostrarTabla();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e.toString());
+                    limpiar();
+                }
             }
         }
+        
+
+        
     }//GEN-LAST:event_btnActualizarMouseClicked
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked

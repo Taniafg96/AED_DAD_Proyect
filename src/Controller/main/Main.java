@@ -5,9 +5,9 @@
  */
 package controller.main;
 
-import java.util.Arrays;
-import model.Connection.ConnectDB;
-import model.storedProcedure.SPProducts;
+
+import model.Connection.CreateDB;
+import view.Login2;
 
 /**
  *
@@ -15,20 +15,7 @@ import model.storedProcedure.SPProducts;
  */
 public class Main {
     public static void main(String[] args) {
-        //Clientes cl = new Clientes("qazsdq", "Lucas", "Lucas", "45", "asf@");
-        //System.out.println(cl.toString());
-        
-        
-//        ArrayList <String> campos = new ArrayList <String>();
-//        campos.add("Nombre");
-//        campos.add("edad");
-//        campos.add("Apellidos");
-//        new ClienteCRUD().select(campos);
-
-        //Clientes cl = new Clientes("qazsdq", "Lugo", cl.getDireccion(), "", "");
-        //new ClienteCRUD().update(cl);
-        
-        new  ConnectDB("root", "EstoesunaPRUEBA!!DAM");
-        
+        new CreateDB("root", "EstoesunaPRUEBA!!DAM");
+        Login2 login = new Login2();
     }
 }

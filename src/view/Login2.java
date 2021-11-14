@@ -5,6 +5,7 @@
  */
 package view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +19,13 @@ public class Login2 extends javax.swing.JFrame {
      */
     public Login2() {
         initComponents();
+        setVisible(true);
+        setLocationRelativeTo (null);
+        //Icono
+        ImageIcon img = new ImageIcon("src/img/technology.png"); 
+        setIconImage(img.getImage());
+        //Titulo
+        setTitle("TC TECH SA");
         setLocationRelativeTo (null);
     }
 
@@ -207,11 +215,22 @@ public class Login2 extends javax.swing.JFrame {
     private void botonLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonLoginMouseClicked
         String usuario = campoUsuario.getText();
         String pass =  campoPass.getText();
-        if(usuario.equals("admin") && pass.equals("admin")){
+        if(usuario.equals("root") && pass.equals("password")){
             //Cierra el Frame actual
             this.dispose();
             PrincipalFrame v = new PrincipalFrame();
             v.setVisible(true);
+            //Permisos
+            PrincipalFrame.USUARIOLOGEADO = false;
+        }else if(usuario.equals("perez") && pass.equals("1234")
+                ||  usuario.equals("castillo") && pass.equals("1234")
+                ||  usuario.equals("padron") && pass.equals("1234")){
+            //Cierra el Frame actual
+            this.dispose();
+            PrincipalFrame v = new PrincipalFrame();
+            v.setVisible(true);
+            //Permisos
+            PrincipalFrame.USUARIOLOGEADO = true;
         }else{
            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
            campoUsuario.setText("Usuario");

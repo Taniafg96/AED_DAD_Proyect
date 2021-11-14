@@ -1,12 +1,13 @@
-/*
+                           /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package view;
 
-import images.img.Borr2;
+//import images.img.Borr2;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -15,12 +16,21 @@ import javax.swing.JPanel;
  * @author Cristo
  */
 public class PrincipalFrame extends javax.swing.JFrame {
-
+    
+    //Atributos
      private Inicio in = new Inicio();
+     //Varibale para PERMISOS | TRUE = USUARIO BASE | FALSE = USUARIO ADMIN
+     protected static boolean USUARIOLOGEADO;
      
     public PrincipalFrame() {
         initComponents();
+        //Panel de Inicio
         nuevoPanel(in); 
+        //Icono
+        ImageIcon img = new ImageIcon("src/img/technology.png"); 
+        setIconImage(img.getImage());
+        //Titulo
+        setTitle("TC TECH SA");
         setLocationRelativeTo (null);
     }
 
